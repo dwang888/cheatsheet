@@ -25,6 +25,7 @@ text_ner_segmented = sum(text_ner_segmented, [])
 
 
 # process pool
+from multiprocessing import Pool
 def worker_nlp_sent(txt):
   return something
 txt_all = [txt1, txt2,]
@@ -32,4 +33,25 @@ pool = Pool(4)
 text_ner_matrix = pool.map(worker_nlp_sent, txt_all)
 pool.close()
 pool.join()
+
+#doc2vec model
+from gensim.models.doc2vec import Doc2Vec, TaggedDocument, Word2Vec
+doc1 = TaggedDocument(words=text_tokens1, tags=['SENT_'+str(1)])
+doc2 = TaggedDocument(words=text_tokens2, tags=['SENT_'+str(2)])
+model = Doc2Vec(min_count=20, workers=14,)
+model.build_vocab(texts_all)
+model.train([doc1, doc2], total_examples=len(texts_all), epochs=50, report_delay = 600)
+model.init_sims(replace=True)
+model.save("path_to_model", ignore=[])
+print len(model.wv.vocab), ' words learnt in model'
+
+doc0_inferred = model.infer_vector([u'word1', u'word2', u'word3'])
+sims_to_infer = model.docvecs.most_similar([doc0_inferred], topn=len(model.docvecs) )
+for pair in sims_to_infer[:10]:
+          id = pair[0]
+          print pair
+          print ''.join(id_2_text[id].words)
+
+
+
 

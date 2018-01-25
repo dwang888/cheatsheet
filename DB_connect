@@ -1,0 +1,14 @@
+#MySQL
+
+conn = MySQLdb.connect(host="localhost",
+                     user="scraper",
+                     passwd="mh_scraper_2017",
+                     db="fintech",
+                     charset='utf8')
+cursor_select = conn.cursor()
+
+cursor_select.execute("select * from fund_meta")
+records=cursor_select.fetchall()
+fund_ids = [row[0] for row in records]
+
+

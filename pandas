@@ -54,4 +54,13 @@ for pair in sims_to_infer[:10]:
 
 
 
+#word2vec
+from gensim.models import Word2Vec
+from gensim.models import Phrases
 
+text_segmented = [[word1, word2], [worda, wordb]]
+bigram = Phrases(text_segmented)
+
+model = Word2Vec(bigram[text_segmented], workers=8, size=100, min_count=10, window=5, sample=100000, sg=1)
+pairs_sim = model.most_similar(target_w, topn=20)
+word_vector = model.wv['computer']

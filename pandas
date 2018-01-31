@@ -64,3 +64,20 @@ bigram = Phrases(text_segmented)
 model = Word2Vec(bigram[text_segmented], workers=8, size=100, min_count=10, window=5, sample=100000, sg=1)
 pairs_sim = model.most_similar(target_w, topn=20)
 word_vector = model.wv['computer']
+
+
+# handle inf and null
+df = df.loc[( df['x'].notnull() ) & ( np.isfinite(df['x']) )]
+df['x'] = df['x'].replace([np.inf, -np.inf], mean_x)
+
+     A    B   C  D
+0  NaN  2.0 NaN  0
+1  3.0  4.0 NaN  1
+2  NaN  NaN NaN  5
+>>> df.dropna(axis=1, how='all')
+     A    B  D
+0  NaN  2.0  0
+1  3.0  4.0  1
+2  NaN  NaN  5
+
+

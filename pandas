@@ -81,3 +81,8 @@ df['x'] = df['x'].replace([np.inf, -np.inf], mean_x)
 2  NaN  NaN  5
 
 
+#merge df
+cols_to_use = rdf.columns - ldf.columns
+res = pd.merge(ldf, rdf[cols_to_use], left_index=True, right_index=True, how='inner')
+    
+    

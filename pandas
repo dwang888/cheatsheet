@@ -87,3 +87,9 @@ def join_dfs(ldf, rdf):
     res = pd.merge(ldf, rdf[cols_to_use], left_index=True, right_index=True, how='inner')
     return res
 df_merged = reduce(join_dfs, dfs)
+
+
+# Return a new array of given shape and type, filled with zeros.
+np.zeros((2, 1))
+# array([[ 0.],
+       [ 0.]])

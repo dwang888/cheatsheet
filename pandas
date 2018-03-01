@@ -93,3 +93,6 @@ df_merged = reduce(join_dfs, dfs)
 np.zeros((2, 1))
 # array([[ 0.],
        [ 0.]])
+
+#set value in dataframe
+df.set_value(index, 'row_name', some_value)

@@ -1,0 +1,29 @@
+#### get lat lon from google
+import googlemaps
+gmaps = googlemaps.Client(key=MY_KEY)
+def get_lat_lon_from_google(address)
+    lat, lon = None, None
+    geocode_result = gmaps.geocode(address)
+    if not geocode_result in (None, [],):
+      latlng = geocode_result[0]['geometrt']['location']
+      lat = latlng['lat']
+      lon = latlng['lng']
+    return lat, lon
+    
+#### Google place free text search
+from googleplaces import GooglePlaces, types
+google_places = GooglePlaces(KEY)
+query_result = google_places.text_search(query='YOUR_TEXT', language='en')
+for place in query_result.places:
+    place_geo = place.geo_location
+    place_lat = place_geo['lat']
+    place_lon = place_geo['lng']
+    
+    place.get_details()
+    website = details.get('website')
+    rating = details.get('rating')
+
+#### calculate distance
+from geopy.distance import vincenty, great_circle
+R=6373.0
+distance_lat_lon = great_circle(lat1,lon1), (lat2,lon2)).miles

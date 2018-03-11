@@ -80,6 +80,8 @@ df['x'] = df['x'].replace([np.inf, -np.inf], mean_x)
 1  3.0  4.0  1
 2  NaN  NaN  5
 
+# is null
+pd.isnull(YOUR_VARIABLE)
 
 #merge df
 def join_dfs(ldf, rdf):
@@ -88,6 +90,7 @@ def join_dfs(ldf, rdf):
     return res
 df_merged = reduce(join_dfs, dfs)
 
+res = pd.merge(df1, df2, left_on=column_left, right_on=column_right, how='inner')
 
 # Return a new array of given shape and type, filled with zeros.
 np.zeros((2, 1))
@@ -96,3 +99,15 @@ np.zeros((2, 1))
 
 #set value in dataframe
 df.set_value(index, 'row_name', some_value)
+
+#### drop duplicate
+df1 = df1.drop_duplicates(subset=['COL1_DROPPED', 'COL2_DROPPED'], keep='first', inplace=False)
+
+#### rename
+df1 = df1.rename(columns={'old_col1':'new_col1', 'old_col2':'new_col2'})
+
+#### sort
+df1 = df1.sort_values(by=['col1', 'col2', 'col3'])
+
+#### convert 1 row to a dict
+dict_row = df1.iloc[INDEX].to_dict()

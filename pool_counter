@@ -30,7 +30,9 @@ def worker_func(arg):
     t = arg[0]
     ''' increment the global counter, do something with the input '''
     my_counter.increment()
-    print my_counter.value()
+    
+    if my_counter.value() % 10 == 0:
+        print my_counter.value()
     return t * 10
 
 if __name__ == '__main__':    
@@ -43,7 +45,7 @@ if __name__ == '__main__':
     i.wait()
     print(i.get())
     
-    p = Pool(processes=4, initializer=init_pool, initargs=(counter,dummy3))
+    p = Pool(processes=4, initializer=init_pool, initargs=(counter,'WHATEVER'))
     result = p.map(worker_func, tasks)
     p.close()
     p.join()

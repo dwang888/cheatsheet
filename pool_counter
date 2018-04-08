@@ -1,0 +1,50 @@
+
+
+from multiprocessing import Pool, Value, Lock
+from time import sleep
+
+
+class Counter(object):
+    def __init__(self, initval=0):
+        self.val = Value('i', initval)
+        self.lock = Lock()
+
+    def increment(self):
+        with self.lock:
+            self.val.value += 1
+
+    def value(self):
+        with self.lock:
+            return self.val.value       
+        
+        
+def init_pool(init_arg1, init_arg2):
+    ''' store the counter for later use '''
+    global my_counter
+    my_counter = init_arg1
+
+    global my_val
+    my_val = init_arg2
+
+def worker_func(arg):
+    t = arg[0]
+    ''' increment the global counter, do something with the input '''
+    my_counter.increment()
+    print my_counter.value()
+    return t * 10
+
+if __name__ == '__main__':    
+    counter = Counter(0)
+    inputs = range(1000)
+    tasks = [(item, 'YOUR_INPUT_VALUE') for item in inputs]    
+    
+    p = Pool(processes=4, initializer=init_pool, initargs=(counter,'WHATEVER'))
+    i = p.map_async(worker_func, tasks, chunksize = 1)
+    i.wait()
+    print(i.get())
+    
+    p = Pool(processes=4, initializer=init_pool, initargs=(counter,dummy3))
+    result = p.map(worker_func, tasks)
+    p.close()
+    p.join()
+    print result

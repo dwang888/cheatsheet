@@ -111,3 +111,10 @@ df1 = df1.sort_values(by=['col1', 'col2', 'col3'])
 
 #### convert 1 row to a dict
 dict_row = df1.iloc[INDEX].to_dict()
+
+### encode in read csv
+df = pd.read_csv(path, 
+                      ncoding='iso-8859-1'
+                     #encoding='cp1252'
+                     #encoding='latin1'
+                      )

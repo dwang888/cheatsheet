@@ -118,3 +118,7 @@ df = pd.read_csv(path,
                      #encoding='cp1252'
                      #encoding='latin1'
                       )
+
+### groupby and sort
+df_count = df.groupby('sub_cause').count()
+df_count = df_count.sort_values('claim_number', ascending=False)

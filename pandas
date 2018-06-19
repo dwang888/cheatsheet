@@ -122,3 +122,7 @@ df = pd.read_csv(path,
 ### groupby and sort
 df_count = df.groupby('sub_cause').count()
 df_count = df_count.sort_values('claim_number', ascending=False)
+
+
+#### count and sort
+df_dnb_tiern.groupby('KEY')['SOME_COL'].count().reset_index(name='count').sort_values(['count'],ascending=False).head(20)

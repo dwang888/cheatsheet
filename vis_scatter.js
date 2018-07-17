@@ -1,6 +1,5 @@
 import React from 'react';
 import echarts from 'echarts/lib/echarts';
-// import echarts from 'echarts/dist/echarts.common';
 import 'echarts/lib/chart/graph';//must import to activate certain type of chart
 import 'echarts/lib/chart/scatter';
 import 'echarts/lib/chart/line';
@@ -9,7 +8,6 @@ import 'echarts/lib/component/title';
 import 'echarts/lib/chart/scatter';
 //require('echarts/lib/component/tooltip');//another way of import
 //require('echarts/lib/component/title');
-// import 'dat.gui';
 import * as dat from 'dat.gui';
 
 let dataJson = require('./data/nutrients.json');
@@ -184,78 +182,56 @@ export default class VisScatter extends React.Component {
         }).slice(2);
 
 ///////////////////////////////////////////////
-        var obj = {
-            message: 'Please Select hazard and BCP',
-            xAxis: 'calcium',
-            yAxis: 'fiber',
-            maxSize: 6.0,
-            speed: 5,
-            height: 10,
-            noiseStrength: 10.2,
-            growthSpeed: 0.2,
-            reset: function () {window.alert('Bang!');
-                },
+        let app = {};
+        app.config = {
+            message:'Please Select hazard and BCP',
+            xAxis: 'protein',
+            yAxis: 'calcium',
+            onChange: function () {
+                if (data) {
+                    myChart.setOption({
+                        xAxis: {
+                            name: app.config.xAxis
+                        },
+                        yAxis: {
+                            name: app.config.yAxis
+                        },
+                        series: {
+                            data: data.map(function (item, idx) {
+                                return [
+                                    item[fieldIndices[app.config.xAxis]],
+                                    item[fieldIndices[app.config.yAxis]],
+                                    item[1],
+                                    idx
+                                ];
+                            })
+                        }
+                    });
+                }
+            }
         };
+        
+        app.configParameters = {
+            xAxis: {
+                options: fieldNames
+            },
+            yAxis: {
+                options: fieldNames
+            }
+        };
+
         var gui = new dat.gui.GUI();
-        
-        gui.add(obj, 'message');
-        gui.add(obj, 'xAxis', ['protein','calcium', 'fiber']).onChange(function () {
-            // window.alert(obj.xAxis + obj.yAxis);
-              myChart.setOption({
-                xAxis: {
-                    name: obj.xAxis
-                },
-                yAxis: {
-                    name: obj.yAxis
-                },
-                series: {
-                    data: data.map(function (item, idx) {
-                        return [
-                            item[fieldIndices[obj.xAxis]],
-                            item[fieldIndices[obj.yAxis]],
-                            item[1],
-                            idx
-                        ];
-                    })
-                }
-                });
-            });
-        gui.add(obj, 'yAxis', ['protein','calcium', 'fiber']).onChange(function () {
-            // window.alert(obj.xAxis + obj.yAxis);
-              myChart.setOption({
-                xAxis: {
-                    name: obj.xAxis
-                },
-                yAxis: {
-                    name: obj.yAxis
-                },
-                series: {
-                    data: data.map(function (item, idx) {
-                        return [
-                            item[fieldIndices[obj.xAxis]],
-                            item[fieldIndices[obj.yAxis]],
-                            item[1],
-                            idx
-                        ];
-                    })
-                }
-                });
-            });
-        
-        gui.add(obj, 'reset');
-        gui.add(obj, 'maxSize').min(-10).max(10).step(0.25);
-        gui.add(obj, 'height').step(5); // Increment amount
-        gui.add(obj, 'speed', { Stopped: 0, Slow: 0.1, Fast: 5 } );
+        gui.add(app.config, 'message');
+        gui.add(app.config, 'xAxis', ['protein','calcium', 'fiber']).onChange(app.config.onChange);
+        gui.add(app.config, 'yAxis', ['protein','calcium', 'fiber']).onChange(app.config.onChange);
 
-
-// //////////////////////////////////
+////////////////////////////////////
         data = normalizeData(dataJson).slice(0, 1000);
         // let opt = getOption(data);
         let myChart = this.initChart();
         console.log('Successfully run: data normalization!');
         console.log('Successfully run: created option!');
         myChart.setOption(getOption(data));
-
     }
 
     render() {

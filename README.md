@@ -1,2 +1,2 @@
 # cheatsheet
-cheatsheet for data science
+cheatsheet for data science, NLP, machine learning, and data visualization

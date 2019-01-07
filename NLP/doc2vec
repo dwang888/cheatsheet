@@ -84,3 +84,35 @@
             print rs[2], rs[1] 
         if rs[0] == 'tag':
             print rs[2], ''.join(id_2_text[rs[1]])
+
+
+###################################doc2vec model
+from gensim.models.doc2vec import Doc2Vec, TaggedDocument, Word2Vec
+doc1 = TaggedDocument(words=text_tokens1, tags=['SENT_'+str(1)])
+doc2 = TaggedDocument(words=text_tokens2, tags=['SENT_'+str(2)])
+model = Doc2Vec(min_count=20, workers=14,)
+model.build_vocab(texts_all)
+model.train([doc1, doc2], total_examples=len(texts_all), epochs=50, report_delay = 600)
+model.init_sims(replace=True)
+model.save("path_to_model", ignore=[])
+print len(model.wv.vocab), ' words learnt in model'
+
+doc0_inferred = model.infer_vector([u'word1', u'word2', u'word3'])
+sims_to_infer = model.docvecs.most_similar([doc0_inferred], topn=len(model.docvecs) )
+for pair in sims_to_infer[:10]:
+          id = pair[0]
+          print pair
+          print ''.join(id_2_text[id].words)
+
+
+
+###################################################word2vec
+from gensim.models import Word2Vec
+from gensim.models import Phrases
+
+text_segmented = [[word1, word2], [worda, wordb]]
+bigram = Phrases(text_segmented)
+
+model = Word2Vec(bigram[text_segmented], workers=8, size=100, min_count=10, window=5, sample=100000, sg=1)
+pairs_sim = model.most_similar(target_w, topn=20)
+word_vector = model.wv['computer']

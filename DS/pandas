@@ -1,0 +1,40 @@
+##### initialize a df from lists;
+d = {'col1': [1, 2], 'col2': [3, 4]}
+df = pd.DataFrame(data=d, dtype=np.int8)
+
+# Return a new array of given shape and type, filled with zeros.
+    np.zeros((2, 1))
+    # array([[ 0.],
+       [ 0.]])
+
+#empty df
+df = pd.DataFrame(columns=['A','B','C','D','E','F','G'])
+
+#build from dict
+mydata = [{'subid' : 'B14-111', 'age': 75, 'fdg':1.78},
+          {'subid' : 'B14-112', 'age': 22, 'fdg':1.56},]
+df = pandas.DataFrame(mydata)
+
+#### create empty DF with column and index
+columns=['2002','2003','2004']
+index=['Zidane','Figo','Beckham']
+df = pd.DataFrame(columns=columns,index=index)
+print df
+        2002 2003 2004
+Zidane  NaN   NaN NaN
+Figo    NaN   NaN NaN
+Beckham NaN   NaN NaN
+
+#### flatten list of list
+text_ner_segmented = sum(text_ner_segmented, [])
+
+
+
+
+#### convert 1 row to a dict
+dict_row = df1.iloc[INDEX].to_dict()
+
+
+
+
+

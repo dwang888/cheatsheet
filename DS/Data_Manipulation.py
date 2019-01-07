@@ -95,3 +95,17 @@ def remove_outliers(data_frame, column_list, low=0.02, high=0.98):
 
 #### column wise processing
 news_df['assetCodesLen'] = news_df['assetCodes'].map(lambda x: len(x))
+
+
+#### text similarity
+def compute_similarity(v1, v2):
+    # sim = -spatial.distance.cosine(v1,v2)# higher cosine mean lower similarity
+    # sim = -spatial.distance.euclidean(v1,v2)# higher euclidean mean lower similarity
+
+    # v1 = np.where(v1 > 0, 1, 0)
+    # v2 = np.where(v2 > 0, 1, 0)
+    # sim = np.dot(v1,v2)# higher the better; BUT ONLY for 0-1 vector
+    # sim = jaccard_similarity_score(v1,v2)# higher the jaccard; the better similarity
+    sim = -spatial.distance.cosine(v1, v2)
+    # sim = -spatial.distance.euclidean(v1, v2)
+    return sim

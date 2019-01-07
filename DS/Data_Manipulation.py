@@ -50,6 +50,11 @@ df1 = df1.sort_values(by=['col1', 'col2', 'col3'])
 df_count = df.groupby('sub_cause').count()
 df_count = df_count.sort_values('claim_number', ascending=False)
 
+#### groupby and operation
+data.groupby(['month', 'item']).agg({'duration':sum,      # find the sum of the durations for each group
+                                     'network_type': "count", # find the number of network type entries
+                                     'date': 'first'})    # get the first date per group
+
 #### count and sort
 df_dnb_tiern.groupby('KEY')['SOME_COL'].count().reset_index(name='count').sort_values(['count'],ascending=False).head(20)
 

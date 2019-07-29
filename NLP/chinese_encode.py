@@ -10,3 +10,7 @@ def _is_chinese_char(cp):
     return True
 
     return False
+
+
+#### read using encoding:
+encoding='latin1', encoding='iso-8859-1' or encoding='cp1252'

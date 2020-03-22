@@ -1,3 +1,8 @@
+#### increase data
+start_dt = "2017-01-01"
+end_dt = (datetime.datetime.strptime(start_dt, '%Y-%m-%d') + datetime.timedelta(days=5)).strftime('%Y-%m-%d')
+
+
 ######### handle inf and null
 df = df.loc[( df['x'].notnull() ) & ( np.isfinite(df['x']) )]
 df['x'] = df['x'].replace([np.inf, -np.inf], mean_x)

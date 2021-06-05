@@ -1,6 +1,13 @@
 from sklearn.model_selection import TimeSeriesSplit, cross_val_score, GridSearchCV
 from sklearn.model_selection import train_test_split, GridSearchCV, RandomizedSearchCV
 
+## define scorer
+def f1_positive(ys_truth, ys_pred):
+    rpt = classification_report(ys_truth, ys_pred, output_dict = True)
+    return rpt['YOUR_SPECIFIC_CLASS']['f1-score']
+
+scorer_custom = make_scorer(f1_positive, greater_is_better=True)
+skf = StratifiedKFold(n_splits = 5, shuffle = True, random_state = 7)
 tscv = TimeSeriesSplit(n_splits=3)
 
 lgb_clf = xgb.XGBClassifier()
@@ -23,8 +30,8 @@ gs = RandomizedSearchCV(estimator=lgb_clf,
                         param_distributions=tune_params,
                         n_iter=100,
                         n_jobs=1,
-                        scoring='roc_auc',
-                        cv=tscv,
+                        scoring=scorer_custom,
+                        cv=skf,
                         random_state=1,
                         verbose=20)
 
